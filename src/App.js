@@ -5,6 +5,7 @@ const App = () => {
   const [name, setName] = useState("");
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
+  const [shifts, setShifts] = useState([]);
 
   const handleNameInputChange = (event) => {
     setName(event.target.value);
@@ -16,6 +17,10 @@ const App = () => {
 
   const handleEndTimeInputChange = (event) => {
     setEndTime(event.target.value);
+  };
+
+  const saveEmployeeShift = () => {
+    setShifts([...shifts, { name, startTime, endTime }]);
   };
 
   return (
@@ -41,7 +46,7 @@ const App = () => {
             onChange={handleEndTimeInputChange}
           />
         </label>
-        <button>Save</button>
+        <button onClick={saveEmployeeShift}>Save</button>
       </div>
     </div>
   );
