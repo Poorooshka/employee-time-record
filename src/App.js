@@ -65,6 +65,28 @@ const App = () => {
             <div>{shift.name}</div>
             <div>{shift.start}</div>
             <div>{shift.end}</div>
+            <div>
+              {Math.floor(
+                (Date.parse(shift.end) - Date.parse(shift.start)) /
+                  (1000 * 60 * 60)
+              )}
+              :
+              {String(
+                Math.floor(
+                  (Date.parse(shift.end) - Date.parse(shift.start)) /
+                    (1000 * 60)
+                ) % 60
+              ).padStart(2, "0")}
+              h
+            </div>
+            <div>
+              {Math.round(
+                ((Date.parse(shift.end) - Date.parse(shift.start)) /
+                  (1000 * 60 * 60)) *
+                  200 /* 200 is the hourly rate */
+              )}
+              kr
+            </div>
           </div>
         ))}
       </div>
