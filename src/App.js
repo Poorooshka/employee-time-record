@@ -6,6 +6,7 @@ const App = () => {
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
   const [shifts, setShifts] = useState([]);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     fetch(
@@ -34,6 +35,10 @@ const App = () => {
     setEndTime("");
   };
 
+  const handleSearchInputChange = (event) => {
+    setSearch(event.target.value);
+  };
+
   return (
     <div className="App">
       <div>
@@ -60,35 +65,45 @@ const App = () => {
         <button onClick={saveEmployeeShift}>Save</button>
       </div>
       <div>
-        {shifts.map((shift) => (
-          <div key={shift.start}>
-            <div>{shift.name}</div>
-            <div>{shift.start}</div>
-            <div>{shift.end}</div>
-            <div>
-              {Math.floor(
-                (Date.parse(shift.end) - Date.parse(shift.start)) /
-                  (1000 * 60 * 60)
-              )}
-              :
-              {String(
-                Math.floor(
+        <label>
+          Filter Shifts
+          <input value={search} onChange={handleSearchInputChange} />
+        </label>
+      </div>
+      <div>
+        {shifts
+          .filter((shift) =>
+            shift.name.toLowerCase().includes(search.toLowerCase())
+          )
+          .map((shift) => (
+            <div key={shift.start}>
+              <div>{shift.name}</div>
+              <div>{shift.start}</div>
+              <div>{shift.end}</div>
+              <div>
+                {Math.floor(
                   (Date.parse(shift.end) - Date.parse(shift.start)) /
-                    (1000 * 60)
-                ) % 60
-              ).padStart(2, "0")}
-              h
+                    (1000 * 60 * 60)
+                )}
+                :
+                {String(
+                  Math.floor(
+                    (Date.parse(shift.end) - Date.parse(shift.start)) /
+                      (1000 * 60)
+                  ) % 60
+                ).padStart(2, "0")}
+                h
+              </div>
+              <div>
+                {Math.round(
+                  ((Date.parse(shift.end) - Date.parse(shift.start)) /
+                    (1000 * 60 * 60)) *
+                    200 /* 200 is the hourly rate */
+                )}
+                kr
+              </div>
             </div>
-            <div>
-              {Math.round(
-                ((Date.parse(shift.end) - Date.parse(shift.start)) /
-                  (1000 * 60 * 60)) *
-                  200 /* 200 is the hourly rate */
-              )}
-              kr
-            </div>
-          </div>
-        ))}
+          ))}
       </div>
     </div>
   );
