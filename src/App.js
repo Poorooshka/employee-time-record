@@ -59,6 +59,15 @@ const App = () => {
         </label>
         <button onClick={saveEmployeeShift}>Save</button>
       </div>
+      <div>
+        {shifts.map((shift) => (
+          <div key={shift.start}>
+            <div>{shift.name}</div>
+            <div>{shift.start}</div>
+            <div>{shift.end}</div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
