@@ -1,11 +1,19 @@
 import "./App.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const App = () => {
   const [name, setName] = useState("");
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
   const [shifts, setShifts] = useState([]);
+
+  useEffect(() => {
+    fetch(
+      "https://gist.githubusercontent.com/benna100/5fd674171ea528d7cd1d504e9bb0ca6f/raw"
+    )
+      .then((response) => response.json())
+      .then(setShifts);
+  }, []);
 
   const handleNameInputChange = (event) => {
     setName(event.target.value);
@@ -20,7 +28,10 @@ const App = () => {
   };
 
   const saveEmployeeShift = () => {
-    setShifts([...shifts, { name, startTime, endTime }]);
+    setShifts([...shifts, { name, start: startTime, end: endTime }]);
+    setName("");
+    setStartTime("");
+    setEndTime("");
   };
 
   return (
