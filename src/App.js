@@ -104,6 +104,19 @@ const App = () => {
               </div>
             </div>
           ))}
+        <div>
+          <p>Total Price:</p>
+          {shifts
+            .map((shift) =>
+              Math.round(
+                ((Date.parse(shift.end) - Date.parse(shift.start)) /
+                  (1000 * 60 * 60)) *
+                  200 /* 200 is the hourly rate */
+              )
+            )
+            .reduce((previous, current) => previous + current)}
+          kr
+        </div>
       </div>
     </div>
   );
