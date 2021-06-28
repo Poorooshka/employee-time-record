@@ -1,5 +1,6 @@
 import "./App.css";
 import { useState, useEffect } from "react";
+import { displayPrice, displayTotalPrice } from "./App.utility.js";
 
 const App = () => {
   const [name, setName] = useState("");
@@ -94,33 +95,17 @@ const App = () => {
                 ).padStart(2, "0")}
                 h
               </div>
-              <div>
-                {Math.round(
-                  ((Date.parse(shift.end) - Date.parse(shift.start)) /
-                    (1000 * 60 * 60)) *
-                    200 /* 200 is the hourly rate */
-                )}
-                kr
-              </div>
+              <div>{displayPrice(shift)}</div>
             </div>
           ))}
         <div>
           <p>Total Price:</p>
-          {shifts
-            .map((shift) =>
-              Math.round(
-                ((Date.parse(shift.end) - Date.parse(shift.start)) /
-                  (1000 * 60 * 60)) *
-                  200 /* 200 is the hourly rate */
-              )
-            )
-            .reduce((previous, current) => previous + current)}
-          kr
+          {displayTotalPrice(shifts)}
           <p>Total hours:</p>
           {Math.floor(
             shifts
               .map((shift) => Date.parse(shift.end) - Date.parse(shift.start))
-              .reduce((previous, current) => previous + current) /
+              .reduce((previous, current) => previous + current, 0) /
               (1000 * 60 * 60)
           )}
           :
@@ -128,7 +113,7 @@ const App = () => {
             Math.floor(
               shifts
                 .map((shift) => Date.parse(shift.end) - Date.parse(shift.start))
-                .reduce((previous, current) => previous + current) /
+                .reduce((previous, current) => previous + current, 0) /
                 (1000 * 60)
             ) % 60
           ).padStart(2, "0")}
