@@ -116,6 +116,23 @@ const App = () => {
             )
             .reduce((previous, current) => previous + current)}
           kr
+          <p>Total hours:</p>
+          {Math.floor(
+            shifts
+              .map((shift) => Date.parse(shift.end) - Date.parse(shift.start))
+              .reduce((previous, current) => previous + current) /
+              (1000 * 60 * 60)
+          )}
+          :
+          {String(
+            Math.floor(
+              shifts
+                .map((shift) => Date.parse(shift.end) - Date.parse(shift.start))
+                .reduce((previous, current) => previous + current) /
+                (1000 * 60)
+            ) % 60
+          ).padStart(2, "0")}
+          h
         </div>
       </div>
     </div>
